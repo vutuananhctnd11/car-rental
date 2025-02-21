@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách User</title>
+    <script>
+        async function fetchUsers() {
+            try {
+                const response = await fetch('http://localhost:8090/user');
+                if (!response.ok) {
+                    throw new Error('Lỗi khi lấy dữ liệu');
+                }
+                const users = await response.json();
+                const userList = document.getElementById('user-list');
+                userList.innerHTML = '';
+                users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.textContent = `ID: ${user.id} - Name: ${user.name} - Email: ${user.email}`;
+                    userList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Lỗi:', error);
+            }
+        }
+        window.onload = fetchUsers;
+    </script>
+</head>
+<body>
+<h1>Danh sách User</h1>
+<ul id="user-list"></ul>
+</body>
+</html>

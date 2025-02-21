@@ -1,0 +1,39 @@
+#intro { display: block; }
+#login { display: none; }
+#nav_sign {display: block;}
+#nav_log {display: block; }
+#nav_user {display: none; }
+
+.location-card {
+    width: 100%; /* Full width theo cột */
+    height: 180px; /* Vuông nhỏ */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.location-card:hover {
+    transform: scale(1.05); /* Hiệu ứng khi hover */
+}
+
+.overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    color: white;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+.overlay h5 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.overlay p {
+    font-size: 14px;
+    margin: 0;
+}

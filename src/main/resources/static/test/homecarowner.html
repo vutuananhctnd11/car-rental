@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang chủ</title>
+</head>
+<body>
+<h2>Trang chủ của Car Owner</h2>
+<p id="userInfo"></p>
+<button onclick="logout()">Đăng xuất</button>
+
+<script>
+  function checkLogin() {
+      fetch("/me")
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              document.getElementById("userInfo").textContent = "Chào Car Owner, " + data.data.email + " (" + data.data.role + ")";
+          } else {
+              window.location.href = "login.html";
+          }
+      });
+  }
+
+  function logout() {
+      fetch("/logout")
+      .then(() => {
+          window.location.href = "login.html";
+      });
+  }
+
+  checkLogin();
+</script>
+</body>
+</html>

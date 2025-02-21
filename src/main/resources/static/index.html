@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental</title>
+
+    <!-- Bootstrap & FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom CSS & JS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/scripts.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div id="homepage_nav"></div>
+    <div id="homepage"></div>
+    <div id="homepage_footer"></div>
+
+    <script>
+        function loadComponent(id, file) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(id).innerHTML = data;
+                    reinitBootstrap(); // Chạy lại Bootstrap sau khi load
+                });
+        }
+
+
+        function reinitBootstrap() {
+            var modals = document.querySelectorAll(".modal");
+            modals.forEach(modal => {
+                new bootstrap.Modal(modal);
+            });
+        }
+
+        function showCustomerLogin(){// Hiện trang đăng nhập customer
+            document.getElementById("intro").style.display = "none";
+            document.getElementById("login").style.display = "block";
+            document.getElementById("login_owner").style.display = "none";
+
+            document.getElementById("nav_sign").style.display = "none";
+            document.getElementById("nav_log").style.display = "none";
+            document.getElementById("nav_user").style.display = "block";
+
+            document.getElementById("booking_item").style.display = "block";
+            document.getElementById("car_item").style.display = "none";
+            document.getElementById("report_item").style.display = "none";
+
+            document.getElementById("homepage_part").style.display = "block";
+        }
+        function showOwnerLogin(){ //Hiện trang đăng nhập owner
+            document.getElementById("intro").style.display = "none";
+            document.getElementById("login").style.display = "none";
+            document.getElementById("login_owner").style.display = "block";
+
+            document.getElementById("nav_sign").style.display = "none";
+            document.getElementById("nav_log").style.display = "none";
+            document.getElementById("nav_user").style.display = "block";
+
+            document.getElementById("booking_item").style.display = "none";
+            document.getElementById("car_item").style.display = "block";
+            document.getElementById("report_item").style.display = "block";
+
+            document.getElementById("homepage_part").style.display = "none";
+        }
+        function showGuest(){ //Hiện trang đăng nhập guest
+            document.getElementById("intro").style.display = "block";
+            document.getElementById("login").style.display = "none";
+            document.getElementById("login_owner").style.display = "none";
+
+            document.getElementById("nav_sign").style.display = "block";
+            document.getElementById("nav_log").style.display = "block";
+            document.getElementById("nav_user").style.display = "none";
+
+            document.getElementById("homepage_part").style.display = "block";
+        }
+
+        function checkLogin() {
+            fetch("http://localhost:8080/me", { credentials: "include" })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Session data:", data);
+                if (data.success && data.data.role == "customer") {
+                    showCustomerLogin();
+                    document.getElementById("userInfo").textContent = "Welcome customer, " + data.data.name;
+                }else if(data.success && data.data.role == "car owner") {
+                    showOwnerLogin();
+                    document.getElementById("userInfo").textContent = "Welcome car owner, " + data.data.name;
+                } else {
+                    showGuest();
+                }
+            })
+            .catch(error => console.error("Lỗi kiểm tra session:", error));
+        }
+        function logoutUser() {
+            fetch("http://localhost:8080/logout", { credentials: "same-origin" })
+            .then(() => {
+                location.reload();
+                //window.location.href = "home.html";
+            });
+        }
+        function showProfile(){
+            loadComponent("homepage", "components/page/myprofile.html");
+            fetch("http://localhost:8080/me", { credentials: "include" })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById("name").value = data.data.name;
+                document.getElementById('dateOfBirth').value = data.data.dateOfBirth;
+                document.getElementById('phoneNo').value = data.data.phoneNo;
+                document.getElementById('emailProfile').value = data.data.email;
+                document.getElementById('nationalIdNo').value = data.data.nationalIdNo;
+                document.getElementById('address').value = data.data.address;
+                console.log(document.getElementById('drivingLicense').file[0]);
+                document.getElementById('drivingLicense').value = data.data.drivingLicense;
+
+                document.getElementById('address').value = data.data.address;
+            })
+            .catch(error => console.error("Lỗi kiểm tra session:", error));
+        }
+        function showLicense(){
+            event.preventDefault(); // Ngăn reload trang
+            var license = "";
+            fetch("/me", { credentials: "same-origin" })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                let license = data.data.drivingLicense;
+                if (license) {
+                    window.open("/assets/license/" + encodeURIComponent(license), "_blank");
+                } else {
+                    alert("Chưa cập nhật giấy phép lái xe.");
+                }
+            })
+            .catch(error => console.error("Lỗi kiểm tra session:", error));
+        }
+        function uploadLicense(callback) {
+            event.preventDefault(); // Ngăn reload trang
+            let license = "";
+            let drivingLicense = document.getElementById("drivingLicense");
+            let file = drivingLicense.files[0]; // Lấy file đầu tiên
+
+            if (file) {
+                let formData = new FormData();
+                formData.append("file", file);
+
+                fetch("/uplicense", { // URL API
+                    method: "POST",
+                    body: formData,
+                    credentials: "include" // Để gửi HttpSession từ trình duyệt
+                })
+                .then(response => response.json())
+                .then(data => {
+                    license = data.data;
+                    console.log(data);
+                    //GỌI CALLBACK để updateUser() tiếp tục chạy
+                    if (callback) callback(license);
+                })
+                .catch(error => {
+                    console.error("Lỗi:", error);
+                });
+            } else {
+                //Nếu không có file, vẫn gọi callback với giá trị rỗng để tránh treo chương trình
+                if (callback) callback("");
+            }
+        }
+        function updateUser() {
+            event.preventDefault();
+            let json = {};
+            json["name"] = document.getElementById("name").value;
+            json["phoneNo"] = document.getElementById("phoneNo").value;
+            json["email"] = document.getElementById("emailProfile").value;
+            json["dateOfBirth"] = document.getElementById("dateOfBirth").value;
+            json["nationalIdNo"] = document.getElementById("nationalIdNo").value;
+            json["address"] = document.getElementById("address").value;
+            json["drivingLicense"] = "";
+
+            uploadLicense(license => {
+                json["drivingLicense"] = license;
+                console.log("Dữ liệu nhập vào:", json);
+
+                fetch("/updateuser", {
+                    method: "PUT",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(json)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                        console.log("thành công");
+                        alert(data.message);
+                    } else {
+                        alert(data.message);
+                        console.log("thất bại");
+                    }
+                })
+                .catch(error => console.error("Lỗi:", error));
+                });
+
+        }
+        function showBooking(){
+            loadComponent("homepage", "components/page/mybooking.html");
+        }
+        function showWallet(){
+            loadComponent("homepage", "components/page/mywallet.html");
+        }
+        function showCar(){
+            window.location.href = "/test/myCar.html";
+        }
+        function showReport(){
+            loadComponent("homepage", "components/page/myreport.html");
+        }
+        function showHomeProfile(){
+            location.reload();
+        }
+
+        loadComponent("homepage_nav", "components/layout/navbar.html");
+        loadComponent("homepage", "components/page/homepage.html");
+        loadComponent("homepage_footer", "components/layout/footer.html");
+        checkLogin();
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLogin();
+        });
+    </script> 
+</body>
+
+</html>
