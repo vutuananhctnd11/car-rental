@@ -1,0 +1,131 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fontawesome-free-6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="/assets/css/homepage_style.css">
+<script src="assets/js/scripts.js"></script>
+
+
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#" onclick="showHomeProfile()">Home</a></li>
+            <li class="breadcrumb-item active">My Cars</li>
+        </ol>
+    </nav>
+
+    <!-- Action Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <button class="btn btn-primary" onclick="addcar()">
+            <i class="fas fa-plus me-2"></i>Add a Car
+        </button>
+        <select class="form-select ms-3" style="width: auto;">
+            <option value="newest">Newest to Latest</option>
+            <option value="oldest">Latest to Newest</option>
+        </select>
+    </div>
+
+    <!-- Car Grid -->
+    <div class="row g-4">
+        <!-- Car Card Template -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <img src="/assets/pictures/pic1.jpeg" class="card-img-top" alt="Car Image">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">Car Name</h5>
+                        <div class="badge bg-success">Available</div>
+                    </div>
+                    <div class="mb-2">
+                        <span class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <span class="ms-1">4.5</span>
+                        </span>
+                        <span class="text-muted ms-2">(50 rides)</span>
+                    </div>
+                    <p class="card-text text-primary fw-bold mb-2">500,000 VND/day</p>
+                    <p class="card-text mb-2">
+                        <i class="fas fa-map-marker-alt text-secondary me-1"></i>
+                        Ho Chi Minh City
+                    </p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-3">
+                        <button class="btn btn-outline-primary me-md-2" onclick="cardetail()">
+                            <i class="fas fa-info-circle me-1"></i>View Details
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-check-circle me-1"></i>Confirm Deposit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Duplicate card for demonstration -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <img src="/assets/pictures/pic2.jpeg" class="card-img-top" alt="Car Image">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">Car Name</h5>
+                        <div class="badge bg-warning">In Use</div>
+                    </div>
+                    <div class="mb-2">
+                        <span class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <span class="ms-1">4.8</span>
+                        </span>
+                        <span class="text-muted ms-2">(65 rides)</span>
+                    </div>
+                    <p class="card-text text-primary fw-bold mb-2">600,000 VND/day</p>
+                    <p class="card-text mb-2">
+                        <i class="fas fa-map-marker-alt text-secondary me-1"></i>
+                        Ha Noi
+                    </p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-3">
+                        <button class="btn btn-outline-primary me-md-2">
+                            <i class="fas fa-info-circle me-1"></i>View Details
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-check-circle me-1"></i>Confirm Deposit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- Duplicate card for demonstration -->
+         <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <img src="/assets/pictures/pic3.jpeg" class="card-img-top" alt="Car Image">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">Car Name</h5>
+                        <div class="badge bg-warning">In Use</div>
+                    </div>
+                    <div class="mb-2">
+                        <span class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <span class="ms-1">4.8</span>
+                        </span>
+                        <span class="text-muted ms-2">(65 rides)</span>
+                    </div>
+                    <p class="card-text text-primary fw-bold mb-2">600,000 VND/day</p>
+                    <p class="card-text mb-2">
+                        <i class="fas fa-map-marker-alt text-secondary me-1"></i>
+                        Ha Noi
+                    </p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-3">
+                        <button class="btn btn-outline-primary me-md-2">
+                            <i class="fas fa-info-circle me-1"></i>View Details
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-check-circle me-1"></i>Confirm Deposit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add more cards as needed -->
+    </div>
+</div>

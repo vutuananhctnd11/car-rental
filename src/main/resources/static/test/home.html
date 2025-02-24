@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ</title>
+</head>
+<body>
+<h1>Trang chủ khách hàng</h1>
+<div id="authSection">
+    <button id="loginBtn" onclick="window.location.href='login.html'">Đăng nhập</button>
+    <button id="registerBtn" onclick="window.location.href='register.html'">Đăng ký</button>
+</div>
+<div id="userSection" style="display: none;">
+    <span id="userInfo"></span>
+    <button onclick="logout()">Đăng xuất</button>
+</div>
+
+<script>
+    function checkLogin() {
+        fetch("/me", { credentials: "same-origin" })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Session data:", data);
+            if (data.success) {
+                document.getElementById("userInfo").textContent = "Chào customer, " + data.data.email;
+                document.getElementById("authSection").style.display = "none";
+                document.getElementById("userSection").style.display = "block";
+            } else {
+                document.getElementById("authSection").style.display = "block";
+                document.getElementById("userSection").style.display = "none";
+            }
+        })
+        .catch(error => console.error("Lỗi kiểm tra session:", error));
+    }
+
+    function logout() {
+        fetch("/logout", { credentials: "same-origin" })
+        .then(() => {
+            sessionStorage.clear();
+            window.location.href = "home.html";
+        });
+    }
+
+    checkLogin();
+</script>
+</body>
+</html>

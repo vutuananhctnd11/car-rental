@@ -1,0 +1,328 @@
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/css/homepage_style.css">
+<script src="/assets/js/viewDetail.js"></script>
+<script src="/assets/js/navbar.js"></script>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-secondary" id="homepage_nav">
+    <div class="container">
+        <!-- Logo & Title -->
+        <a class="navbar-brand d-flex align-items-center text-white" href="/index.html">
+            <i class="fa-solid fa-car me-2"></i>
+            <span class="fw-bold text-white">Rent a car today!</span>
+        </a>
+
+        <!-- Nút menu trên mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav TEX">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">| ABOUT US |</a>
+                </li>
+
+                <li class="nav-item dropdown" id="nav_user">
+                    <a class="nav-link text-white" href="#" onclick="toggleMenu(event)">
+                        <i class="fa-solid fa-user"></i> <span id="userInfo"></span>
+                        <i class="fa-solid fa-bars"></i>
+                    </a>
+                    <ul id="userMenu" class="dropdown-menu" style="display: none;">
+                        <li><a class="dropdown-item" href="#" onclick="showProfile()">My Profile</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showBooking()">My Bookings</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showWallet()">My Wallets</a></li>
+
+                        <li><a class="dropdown-item" href="#" onclick="showCar()">My Cars</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showReport()">My Reports</a></li>
+                        <li><a class="dropdown-item text-danger" href="#" onclick="logoutUser()">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div id="homepage">
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="#" onclick="mycar()">Search Cars</a></li>
+            <li class="breadcrumb-item active">Car Details</li>
+        </ol>
+    </nav>
+
+    <!-- Summary Card -->
+    <div class="row mb-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm" style="display: flex; flex-direction: row; width: 500px;">
+                <img src="/assets/pictures/pic3.jpeg" id="avatar" class="card-img-left" alt="Car Image" style="width: 150px; object-fit: cover; height: 100%; border-radius: 5px 0 0 5px;">
+                <div class="card-body d-flex flex-column justify-content-between" style="padding: 10px;">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0" id="name"></h5>
+                        <select class="form-select form-select-sm" id="status" name="status" style="width: auto; color: blue;" disabled>
+                            <option value="available">Available</option>
+                            <option value="booked">Booked</option>
+                            <option value="booked">Stopped</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <span class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <span class="ms-1">4.8</span>
+                        </span>
+                        <span class="text-muted ms-2">(65 rides)</span>
+                    </div>
+                    <p class="card-text text-primary fw-bold mb-2" id="baseprice"></p>
+                    <div  style="display: flex;">
+                        <i class="fas fa-map-marker-alt text-secondary me-1" style="padding: 5px; font-size: 22px;"></i>
+                        <p class="card-text mb-2 d-flex" style="text-align: center;" id="location"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mb-4">Car Details for Customer</h4>
+
+    <ul class="nav nav-pills mb-3" id="carDetailsTabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="basic-tab" data-bs-toggle="pill" href="#basic">Basic Information</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="details-tab" data-bs-toggle="pill" href="#details">Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="pricing-tab" data-bs-toggle="pill" href="#pricing">Pricing</a>
+        </li>
+    </ul>
+
+      
+
+    <!--Basic information-->
+    <div class="tab-content" id="carDetailsContent">
+        <div class="tab-pane fade show active" id="basic" style="padding-bottom: 100px;">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">License Plate</label>
+                    <input type="text" class="form-control" value="" id="licensePlate" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Color</label>
+                    <input type="text" class="form-control" value="" id="color" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Brand Name</label>
+                    <input type="text" class="form-control" value="" id="brand" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Model</label>
+                    <input type="text" class="form-control" value="" id="model" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Production Year</label>
+                    <input type="text" class="form-control" value="" id="productionYears" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">No. of Seats</label>
+                    <input type="text" class="form-control" value="" id="numberOfSeats" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Transmission</label>
+                    <input type="text" class="form-control" value="" id="transmissionType" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Fuel</label>
+                    <input type="text" class="form-control" value="" id="fuelType" readonly>
+                </div>
+            </div>
+        </div>
+
+    <!--Detail information-->
+        <div class="tab-pane fade" id="details">
+            <div id="details-content" style="margin-bottom: 100px;">
+                
+                <h4 class="mb-3">Details</h4>
+                    <!-- Mileage and Fuel Consumption -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mileage" class="form-label">Mileage</label>
+                            <input type="text" class="form-control" id="mileage" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fuelConsumption" class="form-label">Fuel Consumption (liter/100km)</label>
+                            <input type="text" class="form-control" id="fuelConsumption" readonly>
+                        </div>
+                    </div>
+        
+                    <!-- Address -->
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="address" readonly>
+                            </div>
+                    </div>
+        
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="4" readonly></textarea>
+                    </div>
+        
+                    <!-- Additional Functions -->
+                    <div class="mb-3">
+                        <label class="form-label">Additional Functions</label>
+                        <div class="checkbox-group">
+                            <!-- Group 1 -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="bluetooth"disabled>
+                                <label class="form-check-label" for="bluetooth">
+                                    <i class="fas fa-bluetooth"></i> Bluetooth
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gps" disabled>
+                                <label class="form-check-label" for="gps">
+                                    <i class="fas fa-map-marker-alt"></i> GPS
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="camera"disabled>
+                                <label class="form-check-label" for="camera">
+                                    <i class="fas fa-camera"></i> Camera
+                                </label>
+                            </div>
+        
+                            <!-- Group 2 -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="sunroof" disabled>
+                                <label class="form-check-label" for="sunroof">
+                                    <i class="fas fa-sun"></i> Sunroof
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="childLock"disabled>
+                                <label class="form-check-label" for="childLock">
+                                    <i class="fas fa-child"></i> Child Lock
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="childSeat"disabled>
+                                <label class="form-check-label" for="childSeat">
+                                    <i class="fas fa-baby-carriage"></i> Child Seat
+                                </label>
+                            </div>
+        
+                            <!-- Group 3 -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="dvd"disabled>
+                                <label class="form-check-label" for="dvd">
+                                    <i class="fas fa-compact-disc"></i> DVD
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="usb"disabled>
+                                <label class="form-check-label" for="usb">
+                                    <i class="fas fa-usb"></i> USB
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Images -->
+                    <h4 class="mt-4 mb-3">Images</h4>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="file-upload-card d-flex flex-column">
+                                <label class="form-label">Front</label>
+                                <img id="previewFrontImage" height="200px" width="400px" />
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="file-upload-card d-flex flex-column">
+                                <label class="form-label">Back</label>
+                                <img id="previewBackImage" height="200px" width="400px" />
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <div class="file-upload-card d-flex flex-column">
+                                <label class="form-label">Left</label>
+                                <img id="previewLeftImage" height="200px" width="400px" />
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <div class="file-upload-card d-flex flex-column">
+                                <label class="form-label">Right</label>
+                                <img id="previewRightImage" height="200px" width="400px" />
+                                
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+
+    
+        <!--Pricing information-->
+        <div class="tab-pane fade" id="pricing">
+            <div id="pricing-content" style="margin-bottom: 100px;">
+                <h4 class="mb-3">Pricing</h4>
+                    <!-- Base Price -->
+                    <div class="mb-3">
+                        <label for="basePrice" class="form-label">Set base price for your car (VND/day)</label>
+                        <input type="text" class="form-control" id="basePrice1" readonly>
+                    </div>
+        
+                    <!-- Required Deposit -->
+                    <div class="mb-3">
+                        <label for="deposit" class="form-label">Required deposit (VND)</label>
+                        <input type="text" class="form-control" id="deposit" readonly>
+                    </div>
+        
+                    <!-- Terms of Use -->
+                    <div class="mb-3">
+                        <label class="form-label">Terms of Use</label>
+                        <div class="checkbox-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="noSmoking" disabled>
+                                <label class="form-check-label" for="noSmoking">No Smoking</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="noPet" disabled>
+                                <label class="form-check-label" for="noPet">No Pet</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="noFood" disabled>
+                                <label class="form-check-label" for="noFood">No Food</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="other" disabled>
+                                <label class="form-check-label" for="other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Other Terms Specification -->
+                    <div class="mb-3">
+                        <label for="otherTermsSpecify" class="form-label">Please Specify</label>
+                        <textarea class="form-control" id="otherTermsSpecify" rows="3" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div id="footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+

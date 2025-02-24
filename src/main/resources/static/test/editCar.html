@@ -1,0 +1,443 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fontawesome-free-6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="/assets/css/homepage_style.css">
+<script src="/assets/js/editCar.js" defer></script>
+<script src="/assets/js/navbar.js"></script>
+<style>
+    .step-content {
+      display: none; /* Ẩn tất cả step ban đầu */
+    }
+  
+    .active {
+      display: block; /* Chỉ hiện step đang active */
+    }
+    .step {
+        padding: 5px 20px;
+        border-radius: 5px;
+        background-color: lightgray;
+        color: white;
+    }
+    .highlight {
+        background-color: 555555 !important;
+    }
+  </style>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-secondary" id="homepage_nav">
+    <div class="container">
+        <!-- Logo & Title -->
+        <a class="navbar-brand d-flex align-items-center text-white" href="/index.html">
+            <i class="fa-solid fa-car me-2"></i>
+            <span class="fw-bold text-white">Rent a car today!</span>
+        </a>
+
+        <!-- Nút menu trên mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav TEX">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">| ABOUT US |</a>
+                </li>
+
+                <!--Change the icon when log in-->
+                    <li class="nav-item" id="nav_sign">
+                        <a class="nav-link text-white" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            <i class="fa-solid fa-user text-white"></i> SIGN UP |
+                        </a>
+                    </li>
+                    <li class="nav-item" id="nav_log">
+                        <a class="nav-link text-white" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="fa-solid fa-right-to-bracket text-white"></i> LOGIN
+                        </a>
+                    </li>
+
+
+                <li class="nav-item dropdown" id="nav_user">
+                    <a class="nav-link text-white" href="#" onclick="toggleMenu(event)">
+                        <i class="fa-solid fa-user"></i> <span id="userInfo"></span>
+                        <i class="fa-solid fa-bars"></i>
+                    </a>
+                    <ul id="userMenu" class="dropdown-menu" style="display: none;">
+                        <li><a class="dropdown-item" href="#" onclick="showProfile()">My Profile</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showBooking()">My Bookings</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showWallet()">My Wallets</a></li>
+
+                        <li><a class="dropdown-item" href="#" onclick="showCar()">My Cars</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showReport()">My Reports</a></li>
+                        <li><a class="dropdown-item text-danger" href="#" onclick="logoutUser()">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="homepage">
+
+    
+
+<div id="addnewcar">
+    <div class="container mt-4">
+        
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit a Car</li>
+            </ol>
+        </nav>
+        <h4>Change rental car information</h4>
+        <br/>
+
+    <!-- Summary Card -->
+    <div class="row mb-4" style="width: 80%;">
+        <div>
+            <div class="card h-100 shadow-sm" style="display: flex; flex-direction: row; font-size: 18px;">
+                <img src="/assets/pictures/pic3.jpeg" id="avatar" class="card-img-left" alt="Car Image" style="width: 60%; height: 300px; object-fit: contain;">
+                <div class="card-body d-flex flex-column justify-content-between" style="padding: 10px;">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title" id="cardName"></h5>
+                        <select class="form-select form-select-sm" id="status" name="status" style="width: auto; font-weight: bold;">
+                            <option style="color: green; font-weight: bold;" value="Available">Available</option>
+                            <option style="color: red; font-weight: bold;" value="Stopped">Stopped</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <span class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <span class="ms-1">4.8</span>
+                        </span>
+                        <span class="text-muted ms-2">(65 rides)</span>
+                    </div>
+                    <p class="card-text text-primary fw-bold mb-2" id="cardBaseprice"></p>
+                    <div  style="display: flex;">
+                        <i class="fas fa-map-marker-alt text-secondary me-1" style="padding: 5px; font-size: 22px;"></i>
+                        <p class="card-text mb-2 d-flex" style="text-align: center;" id="cardLocation"></p>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-3">
+                        <button class="btn btn-primary w-100" id="confirmDeposit" onclick="confirmDeposit()">
+                            <i class="fas fa-check-circle me-1"></i>Confirm Deposit
+                        </button>
+                        <button class="btn btn-success w-100" style="display: none;" id="confirmPayment" onclick="confirmPayment()">
+                            <i class="fas fa-check-circle me-1"></i>Confirm Payment
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <!-- Step Indicator -->
+        <div class="step-indicator d-flex justify-content-between mb-4">
+            <div class="step active highlight" data-step="1">Step 1: Basic</div>
+            <div class="step inactive" data-step="2">Step 2: Details</div>
+            <div class="step inactive" data-step="3">Step 3: Pricing</div>
+        </div>
+        <form id="editCar">
+            <!-- Step 1: Basic Form -->
+            <div id="step1" class="step-content container active">
+                <h4 class="mb-3">Basic Information</h4>
+
+                    <!-- Car name -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Car Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter car name">
+                    </div>
+
+                    <!-- License Plate -->
+                    <div class="mb-3">
+                        <label for="licensePlate" class="form-label">License Plate</label>
+                        <input type="text" class="form-control" name="licensePlate" placeholder="Enter license plate">
+                    </div>
+        
+                    <!-- Color -->
+                    <div class="mb-3">
+                        <label for="color" class="form-label">Color</label>
+                        <input type="text" class="form-control" name="color" placeholder="Enter color">
+                    </div>
+        
+                    <!-- Brand Name -->
+                    <div class="mb-3">
+                        <label for="brand" class="form-label">Brand Name</label>
+                        <input type="text" class="form-control" name="brand" placeholder="Enter brand">
+                    </div>
+        
+                    <!-- Model -->
+                    <div class="mb-3">
+                        <label for="model" class="form-label">Model</label>
+                        <input type="text" class="form-control" name="model" placeholder="Enter model">
+                    </div>
+        
+                    <!-- Production Year -->
+                    <div class="mb-3">
+                        <label for="productionYears" class="form-label">Production Year</label>
+                        <input type="text" class="form-control" name="productionYears" placeholder="Enter production year">
+                    </div>
+
+                    <!-- No. of Seats -->
+                    <div class="mb-3">
+                        <label class="form-label">Number of seats</label>
+                        <div>
+                            <div class="form-check form-check-inline" style="margin-right: 40px;">
+                                <input class="form-check-input" type="radio" name="numberOfSeats" value="4">
+                                <label class="form-check-label" for="automatic">4 seats</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-right: 40px;">
+                                <input class="form-check-input" type="radio" name="numberOfSeats"value="5">
+                                <label class="form-check-label" for="manual">5 seats</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-right: 40px;">
+                                <input class="form-check-input" type="radio" name="numberOfSeats" value="7">
+                                <label class="form-check-label" for="manual">7 seats</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-right: 40px;">
+                                <input class="form-check-input" type="radio" name="numberOfSeats" value="9">
+                                <label class="form-check-label" for="manual">9 seats</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="margin-right: 40px;">
+                                <input class="form-check-input" type="radio" name="numberOfSeats" value="16">
+                                <label class="form-check-label" for="manual">16 seats</label>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Transmission -->
+                    <div class="mb-3">
+                        <label class="form-label">Transmission</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="transmissionType" id="automatic" value="automatic">
+                                <label class="form-check-label" for="automatic">Automatic</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="transmissionType" id="manual" value="manual">
+                                <label class="form-check-label" for="manual">Manual</label>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Fuel Type -->
+                    <div class="mb-3">
+                        <label class="form-label">Fuel Type</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="fuelType" id="gasoline" value="gasoline">
+                                <label class="form-check-label" for="gasoline">Gasoline</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="fuelType" id="diesel" value="diesel">
+                                <label class="form-check-label" for="diesel">Diesel</label>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-secondary" onclick="cancelForm()">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                    </div>
+            </div>
+        
+            <!-- Step 2: Details Form -->
+            <div id="step2" class="step-content container">
+                <h4 class="mb-3">Details</h4>
+                
+                    <!-- Mileage and Fuel Consumption -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="mileage" class="form-label">Mileage</label>
+                            <input type="text" class="form-control" name="mileage" placeholder="Enter mileage">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fuelConsumption" class="form-label">Fuel Consumption (liter/100km)</label>
+                            <input type="text" class="form-control" name="fuelConsumption" placeholder="Enter fuel consumption">
+                        </div>
+                    </div>
+        
+                    <!-- Address -->
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <input type="text" class="form-control" name="address" placeholder="Search for an address">
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="4" placeholder="Enter description"></textarea>
+                    </div>
+        
+                    <!-- Additional Functions -->
+                    <div class="mb-3">
+                        <label class="form-label">Additional Functions</label>
+                        <div class="checkbox-group" name="additionalFunctions">
+                            <!-- Group 1 -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="additionalFunctions" value="bluetooth">
+                                <label class="form-check-label" for="bluetooth">
+                                    <i class="fas fa-bluetooth"></i> Bluetooth
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="additionalFunctions" value="gps">
+                                <label class="form-check-label" for="gps">
+                                    <i class="fas fa-map-marker-alt"></i> GPS
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="additionalFunctions" value="camera">
+                                <label class="form-check-label" for="camera">
+                                    <i class="fas fa-camera"></i> Camera
+                                </label>
+                            </div>
+        
+                            <!-- Group 2 -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="additionalFunctions" value="sunroof">
+                                <label class="form-check-label" for="sunroof">
+                                    <i class="fas fa-sun"></i> Sunroof
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="additionalFunctions" value="childLock">
+                                <label class="form-check-label" for="childLock">
+                                    <i class="fas fa-child"></i> Child Lock
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="additionalFunctions" value="childSeat">
+                                <label class="form-check-label" for="childSeat">
+                                    <i class="fas fa-baby-carriage"></i> Child Seat
+                                </label>
+                            </div>
+        
+                            <!-- Group 3 -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="additionalFunctions" value="dvd">
+                                <label class="form-check-label" for="dvd">
+                                    <i class="fas fa-compact-disc"></i> DVD
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="additionalFunctions" value="usb">
+                                <label class="form-check-label" for="usb">
+                                    <i class="fas fa-usb"></i> USB
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Images -->
+                    <h4 class="mt-4 mb-3">Images</h4>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="file-upload-card" onclick="document.getElementById('frontImage').click()">
+                                <label class="form-label">Front</label>
+                                <input type="file" class="d-none" name="frontImage" id="frontImage" accept="image/*" onchange="previewFont(event)">
+                                <p class="text-muted">Drag and drop or <span class="text-primary">Select file</span></p>
+                                <img id="previewFrontImage" height="200px" width="400px" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="file-upload-card" onclick="document.getElementById('backImage').click()">
+                                <label class="form-label">Back</label>
+                                <input type="file" class="d-none" name="backImage" id="backImage" accept="image/*" onchange="previewBack(event)">
+                                <p class="text-muted">Drag and drop or <span class="text-primary">Select file</span></p>
+                                <img id="previewBackImage" height="200px" width="400px" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <div class="file-upload-card" onclick="document.getElementById('leftImage').click()">
+                                <label class="form-label">Left</label>
+                                <input type="file" class="d-none" name="leftImage" id="leftImage" accept="image/*" onchange="previewLeft(event)">
+                                <p class="text-muted">Drag and drop or <span class="text-primary">Select file</span></p>
+                                <img id="previewLeftImage" height="200px" width="400px" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <div class="file-upload-card" onclick="document.getElementById('rightImage').click()">
+                                <label class="form-label">Right</label>
+                                <input type="file" class="d-none" name="rightImage" id="rightImage" accept="image/*" onchange="previewRight(event)">
+                                <p class="text-muted">Drag and drop or <span class="text-primary">Select file</span></p>
+                                <img id="previewRightImage" height="200px" width="400px" />
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-muted">File types: .jpeg, .png</p>
+        
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-secondary" onclick="nextStep(1)">Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                    </div>
+
+            </div>
+            </div>
+        
+            <!-- Step 3: Pricing Form -->
+            <div id="step3" class="step-content container">
+                <h4 class="mb-3">Pricing</h4>
+
+                    <!-- Base Price -->
+                    <div class="mb-3">
+                        <label for="basePrice" class="form-label">Set base price for your car (VND/day)</label>
+                        <input type="text" class="form-control" name="baseprice" placeholder="Enter base price">
+                    </div>
+        
+                    <!-- Required Deposit -->
+                    <div class="mb-3">
+                        <label for="deposit" class="form-label">Required deposit (VND)</label>
+                        <input type="text" class="form-control" name="deposit" placeholder="Enter required deposit">
+                    </div>
+        
+                    <!-- Terms of Use -->
+                    <div class="mb-3">
+                        <label class="form-label">Terms of Use</label>
+                        <div class="checkbox-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="termOfUse" value="noSmoking">
+                                <label class="form-check-label" for="noSmoking">No Smoking</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="termOfUse" value="noPet">
+                                <label class="form-check-label" for="noPet">No Pet</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="termOfUse" value="noFood">
+                                <label class="form-check-label" for="noFood">No Food in Car</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="termOfUse" id="ortherTerm" value="other">
+                                <label class="form-check-label" for="other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Other Terms Specification -->
+                    <div class="mb-3">
+                        <label for="otherTermsSpecify" class="form-label">Please Specify</label>
+                        <textarea class="form-control" id="other" rows="3" placeholder="Enter other terms"></textarea>
+                    </div>
+        
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-secondary" onclick="nextStep(2)">Back</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+
+            </div>
+        </form>
+        <hr style="border-top: 2px solid #ddd; margin: 5px 0;">
+    
+</div>
+</div>
+<div id="footer"></div>
