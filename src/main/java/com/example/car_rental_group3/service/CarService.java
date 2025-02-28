@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.car_rental_group3.dto.response.ApiResponse;
@@ -95,6 +96,7 @@ public class CarService {
 		}			
 	}
 	
+	@Transactional
 	public ApiResponse updateCar (Car updateCar) {
 		Car car = carRepository.findById(updateCar.getId()).orElse(null);
 		if (car==null) return ApiResponse.builder().success(false).message("Car not found!").build();

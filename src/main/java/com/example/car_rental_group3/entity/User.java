@@ -26,7 +26,7 @@ public class User extends Base{
     private String nationalIdNo;
     private String address;
     private String drivingLicense;
-    private float wallet;
+    private Double wallet;
     
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore		// bỏ qua list car khi lấy user

@@ -1,16 +1,12 @@
 package com.example.car_rental_group3.entity;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -45,11 +41,7 @@ public class Car extends Base{
 	@JoinColumn(name = "car_owner_id")
 	User user;
 	
-	@ManyToMany
-	@JoinTable(name = "bookingcar", 
-		joinColumns = @JoinColumn(name ="car_id"),
-		inverseJoinColumns = @JoinColumn(name = "booking_id")
-	)
+	@ManyToMany(mappedBy = "cars")
 	@JsonIgnore
-	List<Booking> bookings;
+	List<Booking> bookings = new ArrayList<>();
 }

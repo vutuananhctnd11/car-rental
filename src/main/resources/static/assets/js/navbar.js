@@ -35,7 +35,7 @@ function showProfile(){
 }
 
 function showBooking(){
-    loadComponent("homepage", "/components/page/mybooking.html");
+    window.location.href = "/test/mybooking.html";
 }
 function showWallet(){
     loadComponent("homepage", "/components/page/mywallet.html");

@@ -86,7 +86,7 @@ function fetchDataSearch (page, limit, search){
                         <td>${car.address}</td>
                         <td>${car.status}</td>
                         <td>
-                            <button class="btn btn-success" onclick="bookcar()">Rent now</button>
+                            <button class="btn btn-success" onclick="bookCar(${car.id})">Rent now</button>
                             <button class="btn btn-info" onclick="carDetail(${car.id})">View Detail</button>
                         </td>
                     </tr>
@@ -105,10 +105,6 @@ function fetchDataSearch (page, limit, search){
         alert("Đã có lỗi xảy ra!");
     });
 }
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -131,6 +127,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function carDetail(id){
     window.location.href = "/test/viewDetail.html?id="+id;
+}
+
+//Add function bookCar
+function bookCar(id) {
+    window.location.href = "/test/bookCar.html?id="+id;
 }
 
 //phân trang ()
@@ -170,13 +171,8 @@ function renderPagination(currentPage, totalPages) {
     pagination.innerHTML = pagesHtml;
 }
 
-
 function changePage(page) {
     let limit = document.getElementById("limit").value
     let search = document.getElementById("pickupLocation").value
     fetchDataSearch(page, limit, search);
 }
-
-
-
-

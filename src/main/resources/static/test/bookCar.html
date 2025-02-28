@@ -1,8 +1,8 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      xmlns="http://www.w3.org/1999/html">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="assets/js/scripts.js"></script>
+<script src="/assets/js/bookCar.js" defer></script>
 
     <div id="bookcar">
         <div class="container mt-4">
@@ -25,8 +25,8 @@
                 <div class="card-body">
                     <ul class="list-unstyled mb-0">
                         <li><strong>Pickup Location:</strong> 123 Main St, City</li>
-                        <li><strong>Pickup Date & Time:</strong> 2023-10-15 10:00 AM</li>
-                        <li><strong>Return Date & Time:</strong> 2023-10-20 10:00 AM</li>
+                        <li><strong>Pickup Date & Time:</strong> <input id="pickup-date" type="datetime-local" ></li>
+                        <li><strong>Return Date & Time:</strong> <input id="return-date" type="datetime-local" ></li>
                     </ul>
                 </div>
             </div>
@@ -37,13 +37,13 @@
                     <div class="card-body">
                         <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active btn-sm custom-btn ms-2" id="pills-renter-tab" data-bs-toggle="pill" data-bs-target="#pills-renter" type="button">Renter Info</button>
+                                <button class="nav-link active btn-sm custom-btn ms-2" id="pills-renter-tab" data-bs-toggle="pill" data-bs-target="#pills-renter" type="button">Booking Information</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link btn-sm custom-btn ms-2" id="pills-driver-tab" data-bs-toggle="pill" data-bs-target="#pills-driver" type="button">Driver Info</button>
+                                <button class="nav-link btn-sm custom-btn ms-2" id="pills-driver-tab" data-bs-toggle="pill" data-bs-target="#pills-driver" type="button">Payment</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link btn-sm custom-btn ms-2" id="pills-payment-tab" data-bs-toggle="pill" data-bs-target="#pills-payment" type="button">Payment</button>
+                                <button class="nav-link btn-sm custom-btn ms-2" id="pills-payment-tab" data-bs-toggle="pill" data-bs-target="#pills-payment" type="button">Finish</button>
                             </li>
                         </ul>
                         
@@ -85,10 +85,10 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">Booking Summary</h5>
                                                 <ul class="list-unstyled mb-0">
-                                                    <li><strong>Number of Days:</strong> 5</li>
-                                                    <li><strong>Price per Day:</strong> $50</li>
-                                                    <li><strong>Total:</strong> $250</li>
-                                                    <li><strong>Deposit:</strong> $50</li>
+                                                    <li><strong>Number of Days:</strong> <input type="number" id="numberOfDays" style="border: none" readonly/></li>
+                                                    <li><strong>Price per Day:</strong> <input type="number" id="pricePerDay" style="border: none" readonly/>$</li>
+                                                    <li><strong>Total:</strong> <input type="number" id="total" style="border: none" readonly/>$</li>
+                                                    <li><strong>Deposit:</strong> <input type="number" id="deposit" style="border: none" readonly/>$</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -219,13 +219,11 @@
                                 <!-- Buttons -->
                                 <div class="d-flex justify-content-between">
                                     <button type="button" class="btn btn-secondary">Cancel</button>
-                                    <button type="button" class="btn btn-primary">Next</button>
+                                    <button type="button" class="btn btn-primary" id="nextButton">Next</button>
                                 </div>
                             </div>
 
-
-
-                            <!-- Driver Info -->
+                            <!-- Payment method -->
                             <div class="tab-pane fade" id="pills-driver">
                                 <p>Please select your payment method</p>
                                 <!-- Step 2: Payment -->
@@ -238,7 +236,8 @@
                                             <div class="list-group">
                                                 <label class="list-group-item d-flex align-items-center">
                                                     <input class="form-check-input me-2" type="radio" name="paymentMethod" id="wallet" checked>
-                                                    <span>My Wallet</span>
+                                                    <span>My Wallet</span><br>&nbsp
+                                                    <span style="color: green">Current balance:</span><input type="number" id="customerWallet" readonly>
                                                 </label>
                                                 <label class="list-group-item d-flex align-items-center">
                                                     <input class="form-check-input me-2" type="radio" name="paymentMethod" id="cash">
@@ -259,16 +258,17 @@
                                     </div>
                             
                             </div>
-                            <!-- Payment -->
+
+                            <!-- Payment success -->
                             <div class="tab-pane fade" id="pills-payment">
                                 <p>You've successfully booked Nissan Navara EI 2017 from 13/2/2022 - 12:00PM to 23/02/222 - 14:00PM</p>
                                 <p>Your booking number is: 012345</p>
                                 <P>Our operator will contact you with further guidance about pickup</P>
                                 <!-- Buttons -->
                                 <div class="d-flex justify-content-between mt-4">
-                                    <button type="button" class="btn btn-outline-secondary">Go to homepage</button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="goToHomepage()">Go to homepage</button>
                                     <button type="button" class="btn btn-success">Book another car</button>
-                                    <button type="button" class="btn btn-success">View booking</button>
+                                    <button type="button" class="btn btn-success" onclick="viewBooking()">View booking</button>
                                 </div>
                             </div>
                         </div>
@@ -278,4 +278,3 @@
         </div>
     </div>
 
-  

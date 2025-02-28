@@ -14,7 +14,8 @@ function showLogin(){
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchUserSession();
-    fetchCarDetail ()
+    console.log("Car ID:", carId);
+    fetchCarDetail (carId);
 });
 
 function fetchUserSession() {
@@ -147,6 +148,7 @@ function cancelForm() {
 const urlParam = new URLSearchParams(window.location.search);
 const carId = urlParam.get("carid");
 
+
 function populateForm(data) {
     Object.keys(data).forEach(key => {
         let field = document.querySelector(`[name="${key}"]`);
@@ -169,8 +171,8 @@ function populateCheckbox(name, valuesString) {
     });
 }
 
-function fetchCarDetail (){
-    fetch("http://localhost:8080/car/4", {
+function fetchCarDetail (carId){
+    fetch("http://localhost:8080/car/"+carId, {
         method: "GET",
         headers: {
             "Conten-Type": "application/json"
@@ -337,7 +339,7 @@ function stopRentalCar(id){
         .then (result => {
             if (result.success){
                 alert("Update status car success!");
-                fetchCarDetail();
+                fetchCarDetail(carId);
             } else {
                 alert ("Stop rental car fail: "+result.message);
             }
@@ -349,8 +351,8 @@ function stopRentalCar(id){
 }
 
 document.getElementById("status").addEventListener("change", function() {
-        stopRentalCar(4);
-        //stopRentalCar(carId);
+        //stopRentalCar(4);
+        stopRentalCar(carId);
 
 });
 //========================================
